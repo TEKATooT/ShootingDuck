@@ -6,23 +6,17 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private Transform[] _transforms;
 
-    private void FixedUpdate()
+    private void Start()
     {
-        Spawned();
+        GiveEnemy();
     }
 
-    private void GiveEnemy()
+    public void GiveEnemy()
     {
-        int random = Random.Range(0, _transforms.Length);
+        int randomNumber = Random.Range(0, _transforms.Length);
 
-        Instantiate(_deathStar, _transforms[random].position, Quaternion.identity);
-    }
+        var star = Instantiate(_deathStar, _transforms[randomNumber].position, Quaternion.identity);
 
-    private void Spawned()
-    {
-        if (GameObject.Find("DeathStar(Clone)") == false)
-        {
-            GiveEnemy();
-        }
+        star._hited.AddListener(GiveEnemy);
     }
 }

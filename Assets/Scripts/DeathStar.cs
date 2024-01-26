@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DeathStar : AbstractWarrior
 {
+    [SerializeField] public UnityEvent _hited;
+
     private void Start()
     {
         Shooting();
@@ -9,8 +12,12 @@ public class DeathStar : AbstractWarrior
 
     protected override void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.TryGetComponent<Bullet>(out Bullet bullet))
+        if (collider.TryGetComponent(out Bullet bullet))
         {
+            _hited?.Invoke();
+
+            _hited.RemoveAllListeners();
+
             Destroy(gameObject);
         }
     }

@@ -4,7 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : AbstractWarrior
 {
-
     [SerializeField] private float _upForce;
     [SerializeField] private float _maxAngle;
     [SerializeField] private float _minAngle;
@@ -37,7 +36,7 @@ public class Player : AbstractWarrior
 
     protected override void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.TryGetComponent<Fighter>(out Fighter fighter))
+        if (collider.TryGetComponent(out Fighter fighter))
         {
             Time.timeScale = 0;
         }

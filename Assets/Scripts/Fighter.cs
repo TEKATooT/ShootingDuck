@@ -4,7 +4,7 @@ public class Fighter : AbstractProjectile
 {
     protected override void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.TryGetComponent<Player>(out Player player))
+        if (collider.TryGetComponent(out Player player))
         {
             Destroy(gameObject);
         }
