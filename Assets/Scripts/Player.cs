@@ -1,5 +1,8 @@
 using UnityEngine;
-
+using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
+//InputAction.CallbackContext context
+//[RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : AbstractWarrior
@@ -31,7 +34,7 @@ public class Player : AbstractWarrior
 
     private void Update()
     {
-        PlayerController();
+        transform.rotation = Quaternion.Lerp(transform.rotation, _minAngleZ, _rotationSpeed * Time.deltaTime);
     }
 
     protected override void OnTriggerEnter2D(Collider2D collider)
@@ -42,24 +45,19 @@ public class Player : AbstractWarrior
         }
     }
 
-    private void PlayerController()
+    private void OnAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            _rigidbody2D.velocity = new Vector2(0, 0);
+        _animator.Play(_shooting);
 
-            transform.rotation = _maxAngleZ;
+        Shooting();
+    }
 
-            _rigidbody2D.AddForce(Vector2.up * _upForce);
-        }
+    public void OnMoveUp()
+    {
+        _rigidbody2D.velocity = new Vector2(0, 0);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, _minAngleZ, _rotationSpeed * Time.deltaTime);
+        transform.rotation = _maxAngleZ;
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            _animator.Play(_shooting);
-
-            Shooting();
-        }
+        _rigidbody2D.AddForce(Vector2.up * _upForce);
     }
 }
